@@ -34,8 +34,8 @@ class ListaItemDao extends Dao {
             
             $this->open();
             
-            $stmt = $this->con->prepare("select * from listaitens li inner join urls u on u.idurls = li.urls_idurls where u.url = ? order by li.item " . $order);
-            
+            $stmt = $this->con->prepare("select * from listaitens li inner join urls u on u.idurls = li.urls_idurls where u.url like ? order by li.item " . $order);
+            $url = $url . "%";
             $stmt->bindParam(1, $url);
             $lista = array();
             
