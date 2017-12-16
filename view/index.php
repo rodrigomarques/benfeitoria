@@ -18,3 +18,19 @@ $(function(){
         Acessar!
     </button>
 </form>
+
+<?php 
+    include_once 'init.php'; 
+    $urlDao = new persistence\UrlDao();
+    
+    $listaUrl = $urlDao->listar();
+    if(count($listaUrl) > 0):
+        echo "<ul>";
+        foreach($listaUrl as $u):
+            $concluido = ($u->finalizada == 1)?" #### Task Concluída":"";
+        
+            echo "<li><a href='".$u->url."'>" . $u->url . "</a> " . $concluido . "</li>";
+        endforeach;
+        echo "</ul>";
+    endif;
+?>

@@ -50,6 +50,26 @@ class UrlDao extends Dao {
         }
     }
     
+    public function listar(){
+        try{
+            
+            $this->open();
+            
+            $stmt = $this->con->prepare("select * from urls u");
+            $url = array();
+            
+            $stmt->execute();
+            while($row = $stmt->fetchObject()){
+                $url[] = $row;
+            }
+            $this->close();
+            return $url;
+        } catch (\Exception $ex) {
+            echo $ex->getMessage();
+            return false;
+        }
+    }
+    
     public function encerrar($idurl = 0){
         try{
             
