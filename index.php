@@ -30,6 +30,15 @@ $urlbase = "/benfeitoria/";
                 
         <?php
             $url = isset($_GET["url"])?$_GET["url"]:"";
+            $request_uri = $_SERVER["REQUEST_URI"];
+            
+            $itens = explode("?", $request_uri);
+            $order = "asc";
+            if(isset($itens[1]) && $itens != ""){
+                $params = explode("&", $itens[1]);
+                $order = $params[0];
+            }
+            
             if($url == ""){
                 $view = "view/index.php";
             }else{

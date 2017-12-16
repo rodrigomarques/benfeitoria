@@ -41,4 +41,18 @@ if($acao == "cadastrar"){
     }else{
         echo 0;
     }
+}else if($acao == "editar"){
+    $msgitem = $_POST["msgitem"];
+    $iditem = $_POST["iditem"]; 
+    
+    $item = new \model\Listaitem();
+    $item->setItem($msgitem);
+    $item->setIdListaItens($iditem);
+    
+    $itemDao = new \persistence\ListaItemDao();
+    if($itemDao->editar($item)){
+        echo 1;
+    }else{
+        echo 0;
+    }
 }

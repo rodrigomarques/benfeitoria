@@ -4,16 +4,21 @@
             var msgitem = $("#msgitem").val();
             var idurl = $("#idurl").val();
             var url = $("#url").val();
-
+            var iditem = $("#iditem").val();
+            var acao = "cadastrar";
+            
+            if(iditem != ""){
+                acao = "editar";
+            }
+            
             $.post('<?php echo $urlbase; ?>control/controleurl.php',{
                 msgitem : msgitem,
                 idurl : idurl, 
                 url : url,
-                acao : 'cadastrar'
+                iditem : iditem,
+                acao : acao
             }, function(result){
                 if(result == 1){
-                    alert("List cadastrado com sucesso!");
-                    //$("#msgitem").val("");
                     location.reload();
                 }
             });
@@ -49,6 +54,14 @@
             }
             return false;
         
+        });
+        
+        $(".editaritem").on('click', function(){
+            var texto = $(this).parent().text();
+            var iditem = $(this).attr("data-value");
+            $("#msgitem").val(texto);
+            $("#btncadastrar").val("EDITAR");
+            $("#iditem").val(iditem);
         })
     })
 </script>
@@ -66,8 +79,7 @@
     }else{
         $idurl = $urlDB->idurls;
     }
-    
-    $itens = $listaItemDao->listarPorUrl($url);
+    $itens = $listaItemDao->listarPorUrl($url, $order);
 ?>
 <h3 class="page-header">URL DE ACESSO: <?php echo $url; ?></h3>
 <?php if($urlDB != null && $urlDB->finalizada == 1): ?>
@@ -77,13 +89,16 @@
 <?php endif; ?>
 <?php
     if(count($itens) > 0): 
+        echo "<a href='?asc' class='btn btn-default'>Ordenar Ascendente</a>";
+        echo "<a href='?desc' class='btn btn-default'>Ordenar Descendente</a>";
+        echo "<hr>";
         echo '<div class="list-group">';
         foreach ($itens as $it):
             echo '<div class="list-group-item">';
                 echo '<p>'.nl2br($it->item)."</p>" ;
                 if($urlDB != null && $urlDB->finalizada == 0):
                     echo '<a href="#" class="btn btn-danger deletaritem" data-value="'.$it->idlistaitens.'"><span class="glyphicon glyphicon-remove"></span></a>';
-                    echo '<a href="#" class="btn btn-warning" data-value="'.$it->idlistaitens.'"><span class="glyphicon glyphicon-edit"></span></a>';
+                    echo '<a href="#" class="btn btn-warning editaritem" data-value="'.$it->idlistaitens.'"><span class="glyphicon glyphicon-edit"></span></a>';
                 endif;
             echo '</div>';
         endforeach;
@@ -98,6 +113,7 @@
         </div>
         <input type="hidden" name="idurl" id="idurl" value="<?php echo $idurl; ?>">
         <input type="hidden" name="url" id="url" value="<?php echo $url; ?>">
+        <input type="hidden" name="iditem" id="iditem" value="">
         <input type="submit" value="ADD" class="btn btn-primary" id="btncadastrar">
         <a href="#" class="btn btn-success concluirtask">Concluir TASK</a>
 </form>
