@@ -7,6 +7,7 @@ use benfeitoria;
 create table urls(
     idurls integer auto_increment primary key,
     url varchar(255) not null,
+    finalizada int default 0,
     datacriacao datetime
 );
 

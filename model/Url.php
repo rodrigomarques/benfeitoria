@@ -3,6 +3,7 @@ namespace model;
 class Url {
     private $idUrls;
     private $url;
+    private $finalizada;
     private $datacriacao;
     
     function getIdUrls() {
@@ -27,6 +28,14 @@ class Url {
 
     function setDatacriacao($datacriacao) {
         $this->datacriacao = $datacriacao;
+    }
+
+    function getFinalizada() {
+        return $this->finalizada;
+    }
+
+    function setFinalizada($finalizada) {
+        $this->finalizada = $finalizada;
     }
 
 
